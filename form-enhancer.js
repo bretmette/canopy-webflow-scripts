@@ -1,5 +1,5 @@
 // Webflow Atomic Form Fields Enhancer (2026)
-// Supports Text Input + Select
+// Supports Text Input + Textarea + Select
 
 document.addEventListener('DOMContentLoaded', () => {
   document
@@ -66,5 +66,23 @@ document.addEventListener('DOMContentLoaded', () => {
       // Field name (for form submissions)
       const fieldName = field.getAttribute('data-name')
       if (fieldName) field.name = fieldName
+
+      // ── SMART ID / FOR LINKING ───────────────────────────
+      const wrapper = field.closest('.form-field-wrapper')
+      if (wrapper) {
+        let fieldId = field.id
+
+        // Only set id if the field doesn't already have one
+        if (!fieldId && fieldName) {
+          field.id = fieldName
+          fieldId = fieldName
+        }
+
+        // Link the label to whatever id is now on the field
+        const label = wrapper.querySelector('label')
+        if (label && fieldId) {
+          label.setAttribute('for', fieldId)
+        }
+      }
     })
 })
