@@ -5,7 +5,8 @@ document.addEventListener('DOMContentLoaded', () => {
   document
     .querySelectorAll(
       'input[data-input-type], input[data-required], input[data-placeholder], input[data-name], ' +
-      'select[data-required], select[data-name], select[data-select-options], select[data-multiple]'
+      'select[data-required], select[data-name], select[data-select-options], select[data-multiple],' +
+      'textarea[data-required], textarea[data-placeholder], textarea[data-name]'
     )
     .forEach((field) => {
 
@@ -16,6 +17,12 @@ document.addEventListener('DOMContentLoaded', () => {
         if (inputType) field.type = inputType
 
         // Placeholder
+        const placeholderText = field.getAttribute('data-placeholder')
+        if (placeholderText !== null) field.placeholder = placeholderText
+      }
+
+      // ── TEXTAREA FIELDS ──────────────────────────────────
+      if (field.tagName === 'TEXTAREA') {
         const placeholderText = field.getAttribute('data-placeholder')
         if (placeholderText !== null) field.placeholder = placeholderText
       }
