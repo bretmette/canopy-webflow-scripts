@@ -1,27 +1,63 @@
-// Webflow Atomic Form Fields Enhancer
-// Handles dynamic type, required, placeholder, and name
+// Webflow Atomic Form Fields Enhancer (2026)
+// Supports Text Input + Select
 
 document.addEventListener('DOMContentLoaded', () => {
   document
     .querySelectorAll(
-      'input[data-input-type], input[data-required], input[data-placeholder], input[data-name]'
+      'input[data-input-type], input[data-required], input[data-placeholder], input[data-name], ' +
+      'select[data-required], select[data-name], select[data-select-options], select[data-multiple]'
     )
-    .forEach((input) => {
-      // Dynamic type (email, password, tel, etc.)
-      const inputType = input.getAttribute('data-input-type')
-      if (inputType) input.type = inputType
+    .forEach((field) => {
 
-      // Required
-      const requiredVal = input.getAttribute('data-required')
-      if (requiredVal === 'true' || requiredVal === '1') input.required = true
-      else if (requiredVal === 'false' || requiredVal === '0') input.required = false
+      // ── INPUT FIELDS ─────────────────────────────────────
+      if (field.tagName === 'INPUT') {
+        // Type (email, password, tel, etc.)
+        const inputType = field.getAttribute('data-input-type')
+        if (inputType) field.type = inputType
 
-      // Placeholder
-      const placeholderText = input.getAttribute('data-placeholder')
-      if (placeholderText !== null) input.placeholder = placeholderText
+        // Placeholder
+        const placeholderText = field.getAttribute('data-placeholder')
+        if (placeholderText !== null) field.placeholder = placeholderText
+      }
 
-      // Name
-      const fieldName = input.getAttribute('data-name')
-      if (fieldName) input.name = fieldName
+      // ── SELECT FIELDS ────────────────────────────────────
+      if (field.tagName === 'SELECT') {
+        // Dynamic options from comma-separated list
+        const optionsText = field.getAttribute('data-select-options')
+        if (optionsText) {
+          field.innerHTML = '' // clear existing options
+
+          const optionsArray = optionsText.split(',').map(opt => opt.trim())
+
+          optionsArray.forEach((text, index) => {
+            const option = document.createElement('option')
+            option.value = text
+            option.textContent = text
+            if (index === 0) option.value = '' // first option as placeholder
+            field.appendChild(option)
+          })
+        }
+
+        // Multiple select (Switch property)
+        const multipleVal = field.getAttribute('data-multiple')
+        if (multipleVal === 'true' || multipleVal === 'Yes') {
+          field.multiple = true
+        } else if (multipleVal === 'false' || multipleVal === 'No') {
+          field.multiple = false
+        }
+      }
+
+      // ── COMMON ──────────────────
+      // Required (Switch property)
+      const requiredVal = field.getAttribute('data-required')
+      if (requiredVal === 'true' || requiredVal === 'Yes') {
+        field.required = true
+      } else if (requiredVal === 'false' || requiredVal === 'No') {
+        field.required = false
+      }
+
+      // Field name (for form submissions)
+      const fieldName = field.getAttribute('data-name')
+      if (fieldName) field.name = fieldName
     })
 })
