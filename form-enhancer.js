@@ -40,9 +40,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Multiple select (Switch property)
         const multipleVal = field.getAttribute('data-multiple')
-        if (multipleVal === 'true' || multipleVal === 'Yes') {
+        if (multipleVal === 'true' || multipleVal === 'True') {
           field.multiple = true
-        } else if (multipleVal === 'false' || multipleVal === 'No') {
+        } else if (multipleVal === 'false' || multipleVal === 'False') {
           field.multiple = false
         }
       }
@@ -50,9 +50,9 @@ document.addEventListener('DOMContentLoaded', () => {
       // ── COMMON ──────────────────
       // Required (Switch property)
       const requiredVal = field.getAttribute('data-required')
-      if (requiredVal === 'true' || requiredVal === 'Yes') {
+      if (requiredVal === 'true' || requiredVal === 'True') {
         field.required = true
-      } else if (requiredVal === 'false' || requiredVal === 'No') {
+      } else if (requiredVal === 'false' || requiredVal === 'False') {
         field.required = false
       }
 
